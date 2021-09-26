@@ -1,68 +1,68 @@
-version: '3.7'
+version: '3.9'
 services:
   react:
     stdin_open: true
-    container_name: react_sentimento
+    container_name: react
     build: ./react
     volumes:
-     - ./workDir/react:/var/www/react:cached
+     - ./workDir/react:/var/www/react/:cached
     ports:
       - "3000:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
-    command: npm start
+#    command: npm start
   db:
-    #       build: ./mysql
     image: mongo
-    restart: always
-    container_name: mongo_database_sentimento
+    container_name: mongo_database
     ports:
       - "8081:8081"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: p
+      MONGO_INITDB_DATABASE: mongoDb
     volumes:
       - /var/lib/mongodb/
     networks:
-      - network_sentimento
+      - network_infrastructure
+#    image: mysql
+#    container_name: mysql_database
+#    command: [ "--default-authentication-plugin=mysql_native_password" ]
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: p
+#      MYSQL_DATABASE: mysqlDb
+#      MYSQL_USER: mysqlDbUser
+#      MYSQL_PASSWORD: p
+#    volumes:
+#      - /var/lib/mysql/
+#    networks:
+#      - network_infrastructure
   symfony:
     build: ./symfony
-    container_name: symfony_sentimento
+    container_name: symfony
     ports:
       - "9001:9001"
     volumes:
-      - ./workDir:/var/www:cached
-    #           - ./logs/sentimento:/var/www/sentimento/var/log:cached
+      - ./workDir/symfony:/var/www/symfony:cached
+      - ./workDir/symfony/log:/var/www/symfony/var/log:cached
     links:
       - db
     extra_hosts:
       - "docker-host.localhost:127.0.0.1"
     networks:
-      - network_sentimento
+      - network_infrastructure
   nginx:
     build: symfony
-    container_name: nginx_sentimento
+    container_name: nginx
     ports:
       - "80:80"
     links:
       - symfony
     volumes:
-      - ./logs/symfony:/var/log/symfony:cached
-      - ./workDir:/var/www:cached
+      - ./workDir/symfony/log:/var/log/symfony:cached
     networks:
-      - network_sentimento
+      - network_infrastructure
 networks:
-  network_sentimento:
-    name: network_sentimento
-volumes:
-  db-data:
-
-#    elk:
-#        image: willdurand/elk
-#        ports:
-#            - "81:80"
-#        volumes:
-#            - ./elk/logstash:/etc/logstash:cached
-#            - ./elk/logstash/patterns:/opt/logstash/patterns:cached
-#            - ./logs/pinvite:/var/www/pinvite/var/log:cached
-#            - ./logs/symfony:/var/log/symfony:cached
+  network_infrastructure:
+    name: network_infrastructure

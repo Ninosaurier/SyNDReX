@@ -39,14 +39,14 @@ RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-set
         && php composer-setup.php && rm composer-setup.php* \
         && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
-COPY sentimento.ini /etc/php7/conf.d/
-COPY sentimento.ini /etc/php7/cli/conf.d/
+COPY symfony.ini /etc/php7/conf.d/
+COPY symfony.ini /etc/php7/cli/conf.d/
 COPY xdebug.ini  /etc/php7/conf.d/
 
-COPY sentimento.pool.conf /etc/php7/php-fpm.d/
+COPY symfony.pool.conf /etc/php7/php-fpm.d/
 
 CMD ["php-fpm7", "-F"]
 
-WORKDIR /var/www/sentimento
+WORKDIR /var/www/symfony
 
 EXPOSE 9001
