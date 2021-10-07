@@ -5,13 +5,17 @@ services:
     container_name: react
     build: ./react
     volumes:
-     - ./workDir/react:/var/www/react/:cached
+     - ./workDir/frontend:/var/www/frontend/:cached
     ports:
       - "3000:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
-#    command: npm start
-  db:
+    networks:
+      - network_infrastructure
+#    extra_hosts:
+#      - "docker-host.localhost:127.0.0.1"
+    command: npm start
+  MongoDB:
     image: mongo
     container_name: mongo_database
     ports:
@@ -24,6 +28,7 @@ services:
       - /var/lib/mongodb/
     networks:
       - network_infrastructure
+#  MySQLDB:
 #    image: mysql
 #    container_name: mysql_database
 #    command: [ "--default-authentication-plugin=mysql_native_password" ]
@@ -44,23 +49,27 @@ services:
     ports:
       - "9001:9001"
     volumes:
-      - ./workDir/symfony:/var/www/symfony:cached
-      - ./workDir/symfony/log:/var/www/symfony/var/log:cached
+      - ./workDir/backend/symfony:/var/www/symfony:cached
+      - ./workDir/backend/symfony/logs:/var/www/symfony/logs:cached
     links:
-      - db
-    extra_hosts:
-      - "docker-host.localhost:127.0.0.1"
+      - MongoDB
+#      - MySQLDB
+#    extra_hosts:
+#      - "docker-host.localhost:127.0.0.1"
     networks:
       - network_infrastructure
   nginx:
-    build: symfony
+    build: ./nginx
     container_name: nginx
     ports:
       - "80:80"
     links:
       - symfony
+      - react
     volumes:
-      - ./workDir/symfony/log:/var/log/symfony:cached
+      - ./workDir/backend/symfony/:/var/www/symfony:cached
+      - ./workDir/frontend/:/var/www/frontend:cached
+      - ./workDir/logs/:/var/log/nginx:cached
     networks:
       - network_infrastructure
 networks:

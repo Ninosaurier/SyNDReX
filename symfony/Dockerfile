@@ -1,6 +1,15 @@
 FROM alpine:3.8
 
-LABEL maintainer="Vincent Composieux <vincent.composieux@gmail.com>"
+ENV HELPER_SCRIPTS_PATH=/usr/share/scripts
+ENV SYMFONY_WEB_PATH=/var/www/symfony/
+
+RUN mkdir -p -v ${HELPER_SCRIPTS_PATH}
+
+COPY symfonyWebPath.txt ${HELPER_SCRIPTS_PATH}
+COPY initSymfonyProject.sh ${HELPER_SCRIPTS_PATH}
+
+
+RUN echo ${SYMFONY_WEB_PATH} > ${HELPER_SCRIPTS_PATH}/symfonyWebPath.txt
 
 RUN apk add --update --no-cache \
     coreutils \
@@ -47,6 +56,6 @@ COPY symfony.pool.conf /etc/php7/php-fpm.d/
 
 CMD ["php-fpm7", "-F"]
 
-WORKDIR /var/www/symfony
+WORKDIR ${SYMFONY_WEB_PATH}
 
 EXPOSE 9001
