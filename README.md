@@ -3,11 +3,12 @@
 ## Introduction
 The repo provides a complete React, Symfony, Nginx and MongoDb or MySQL environment in Docker.
 SyDReXX stands for:
-    - **Sy**mfony
-    - **N**ginx
-    - **D**ocker
-    - **Re**act
-    - **X** is a variable and stands for the database MongoDb or MySQL
+
+- **Sy**mfony
+- **N**ginx
+- **D**ocker
+- **Re**act
+- **X** is a variable and stands for the database MongoDb or MySQL
 
 Feel free to use the repo. I always try to keep the repo up to date. 
 Please bear with me as I don't have much experience with Git and Docker yet.
@@ -51,15 +52,17 @@ mongo                 0.0.0.0:8081->8081/tcp, :::8081->8081/tcp, 27017/tcp mongo
 ```
 
 ### 1.5 Initialize the React project. 
-The recommended working directory is **/var/www/frontend** of the react container. You can change this in the _./react/Dockerfile_.
-Now, create the react project with following command: `docker exec -it react sh /usr/share/scripts/initReactProject.sh`
+The recommended working directory is **/var/www/frontend** of the react container. You can change this in the _./react/Dockerfile_ and do not forget to change it in the react.conf.
+Now, create the react project with following command: 
+`docker exec -it react sh /usr/share/scripts/initReactProject.sh`
 The working directory is declared as _:cached_, so you will find (after restarting all container in chapter 1.7) the new initialized project in _./workdir/frontend/_.
 
 ### 1.6 Initialize the Symfony project
 To create the Symfony project you need the initSymfonyProject.sh script. 
-You start it with the command: `docker exec -it react sh /usr/share/scripts/initReactProject.sh <symfony_project_name>`
+You start it with the command: 
+`docker exec -it symfony sh /usr/share/scripts/initSymfonyProject.sh <symfony_project_name>`
 
-### 1.7 Remove the comment
+### 1.7 Enable the comment
 Open the docker-compose.yml file and enable the line _command: npm start_. Then restart the containers with `docker-compose up -d` or `docker compose up -d`.
 
 ### 1.8 Try it!
@@ -85,8 +88,8 @@ The logs are cached and you will find them in project folder _workDir/logs_.
 
 #### How can I change the working directory of a Docker container?
 - Please make yourself familiar with the commands of [Docker](https://docs.docker.com/compose/). Use the respective "Dockerfile" for changes. 
-- For example, I saved the working directory of the React container in a variable. 
-- If you change it there, it should be applied everywhere. Try to make changes meaningful. If something doesn't work, feel free to contact me.
+For example, I saved the working directory of the React container in a variable. 
+If you change it there, it should be applied everywhere. Try to make changes meaningful. If something doesn't work, feel free to contact me.
 
 # License
 Legally, I don't know if I can declare the repo with a GPL3 license.
