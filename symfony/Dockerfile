@@ -1,15 +1,15 @@
 FROM alpine:3.8
 
-ENV HELPER_SCRIPTS_PATH=/usr/share/scripts
+ENV HELPER_SCRIPTS_FOLDER=/usr/share/scripts
 ENV SYMFONY_WEB_PATH=/var/www/symfony/
 
-RUN mkdir -p -v ${HELPER_SCRIPTS_PATH}
+RUN mkdir -p -v ${HELPER_SCRIPTS_FOLDER}
 
-COPY symfonyWebPath.txt ${HELPER_SCRIPTS_PATH}
-COPY initSymfonyProject.sh ${HELPER_SCRIPTS_PATH}
+COPY symfonyWebPath.txt ${HELPER_SCRIPTS_FOLDER}
+COPY initSymfonyProject.sh ${HELPER_SCRIPTS_FOLDER}
 
 
-RUN echo ${SYMFONY_WEB_PATH} > ${HELPER_SCRIPTS_PATH}/symfonyWebPath.txt
+RUN echo ${SYMFONY_WEB_PATH} > ${HELPER_SCRIPTS_FOLDER}/symfonyWebPath.txt
 
 RUN apk add --update --no-cache \
     coreutils \

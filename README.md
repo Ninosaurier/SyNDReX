@@ -42,12 +42,12 @@ With `docker ps` you will have the following output:
 
 ```bash
 > $ docker-compose ps
-        Image ...               Ports                                                Names
+        Image ...     Ports                                                Names
 --------------------------------------------------------------------------------------------------
-docker-react-symfony_react     0.0.0.0:3000->3000/tcp, :::3000->3000/tcp            react
-docker-react-symfony_nginx     0.0.0.0:80->80/tcp, :::80->80/tcp, 9001/tcp          nginx
-docker-react-symfony_symfony   0.0.0.0:9001->9001/tcp, :::9001->9001/tcp            symfony
-mongo                          0.0.0.0:8081->8081/tcp, :::8081->8081/tcp, 27017/tcp mongo_database
+syndrex_react         0.0.0.0:3000->3000/tcp, :::3000->3000/tcp            react
+syndrex_nginx         0.0.0.0:80->80/tcp, :::80->80/tcp, 9001/tcp          nginx
+syndrex_symfony       0.0.0.0:9001->9001/tcp, :::9001->9001/tcp            symfony
+mongo                 0.0.0.0:8081->8081/tcp, :::8081->8081/tcp, 27017/tcp mongo_database
 ```
 
 ### 1.5 Initialize the React project. 

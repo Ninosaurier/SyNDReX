@@ -2,10 +2,15 @@
 
 mkdir -p -v /tmp/frontend
 cd /tmp/frontend
+
+
+reactWebPath=$(cat /usr/share/scripts/reactWebPath.txt)
+
+echo "Creating a react project"
 npx create-react-app .
 
-mv ./* /var/www/frontend
-mv .[!.]* /var/www/frontend # Do not forget to copy hidden files!
+mv ./* $reactWebPath
+mv .[!.]* $reactWebPath # Do not forget to copy hidden files!
 
-mkdir -p /var/www/frontend/node_modules/.cache
-chmod -R 777 /var/www/frontend/node_modules/.cache
+#mkdir -p "${reactWebPath}node_modules/.cache"
+#chmod -R 777 "${reactWebPath}node_modules/.cache"

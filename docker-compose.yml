@@ -14,7 +14,7 @@ services:
       - network_infrastructure
 #    extra_hosts:
 #      - "docker-host.localhost:127.0.0.1"
-    command: npm start
+#    command: npm start
   MongoDB:
     image: mongo
     container_name: mongo_database
