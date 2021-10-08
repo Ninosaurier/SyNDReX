@@ -1,7 +1,14 @@
-# A fully comprehensive React Symfony Nginx and MongoDb or MySQL Docker container.
+# SyNDReX! A fully comprehensive Symfony, React, Nginx, MongoDb or MySQL Docker container.
 
 ## Introduction
 The repo provides a complete React, Symfony, Nginx and MongoDb or MySQL environment in Docker.
+SyDReXX stands for:
+    - **Sy**mfony
+    - **N**ginx
+    - **D**ocker
+    - **Re**act
+    - **X** is a variable and stands for the database MongoDb or MySQL
+
 Feel free to use the repo. I always try to keep the repo up to date. 
 Please bear with me as I don't have much experience with Git and Docker yet.
 
@@ -18,16 +25,16 @@ If it is smaller than 2.0, then the command goes as follows: `docker-compose up 
 ## 1. Installation
 
 ### 1.1 Clone the project 
-`git clone https://github.com/One-Type-Man/docker-react-symfony.git`
+`git clone https://github.com/One-Type-Man/SyNDReX.git`
 
 ### 1.2 Go in the project folder
-`cd docker-symfony-nginx`
+`cd SyNDReX`
 
 ### 1.3 Build the docker image:
 `docker-compose build` or `docker compose build`. 
 
 ### 1.4 Start the containers
-But before you start the containers, the line "command: npm start" in the _docker-compose.yml, is commented out. This is important for the beginning, otherwise the _React container_ will *not start*! 
+But before you start the containers, the line "command: npm start" in the _docker-compose.yml_, is commented out. This is important for the beginning, otherwise the _React container_ will *not start*! 
 The command will start the React project, but will immediately print an error message, because there is no _package.json_. Therefore we have to comment out the line first.
 Start the container: `docker-compose up -d` or `docker compose up -d`.
 
