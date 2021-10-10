@@ -2,7 +2,7 @@
 
 ## Introduction
 The repo provides a complete React, Symfony, Nginx and MongoDb or MySQL environment in Docker.
-SyDReXX stands for:
+SyNDReXX stands for:
 
 - **Sy**mfony
 - **N**ginx
@@ -21,6 +21,7 @@ You are welcome to clone the repo and run it in Windows. I will gladly extend th
 ### Check docker version
 Make sure which Docker version you are using. make sure which Docker version you are using. 
 If your version is greater than 2.0, then start the containers with `docker compose up <parameters>`.
+
 If it is smaller than 2.0, then the command goes as follows: `docker-compose up <parameters>`. **Note the hyphen!**
 
 ## 1. Installation
@@ -35,9 +36,11 @@ If it is smaller than 2.0, then the command goes as follows: `docker-compose up 
 `docker-compose build` or `docker compose build`. 
 
 ### 1.4 Start the containers
-But before you start the containers, the line "command: npm start" in the _docker-compose.yml_, is commented out. This is important for the beginning, otherwise the _React container_ will *not start*! 
+But before you start the containers, the line "command: npm start" in the _docker-compose.yml_, is commented out. This is **important for the beginning**, otherwise the _React container_ will *not start*! 
 The command will start the React project, but will immediately print an error message, because there is no _package.json_. Therefore we have to comment out the line first.
-Start the container: `docker-compose up -d` or `docker compose up -d`.
+Start the container: 
+- Version **less** 2.0: `docker-compose up -d` 
+- Version **greather** 2.0: `docker compose up -d`.
 
 With `docker ps` you will have the following output:
 
@@ -52,15 +55,17 @@ mongo                 0.0.0.0:8081->8081/tcp, :::8081->8081/tcp, 27017/tcp mongo
 ```
 
 ### 1.5 Initialize the React project. 
-The recommended working directory is **/var/www/frontend** of the react container. You can change this in the _./react/Dockerfile_ and do not forget to change it in the react.conf.
+The recommended working directory is **/var/www/frontend** of the react container. 
 Now, create the react project with following command: 
-`docker exec -it react sh /usr/share/scripts/initReactProject.sh`
-The working directory is declared as _:cached_, so you will find (after restarting all container in chapter 1.7) the new initialized project in _./workdir/frontend/_.
+- `docker exec -it react sh /usr/share/scripts/initReactProject.sh`
+
+The working directory is declared as **:cached**, so you will find (after restarting all container in chapter 1.7) the new initialized project in **./workdir/frontend/**.
 
 ### 1.6 Initialize the Symfony project
 To create the Symfony project you need the initSymfonyProject.sh script. 
-You start it with the command: 
-`docker exec -it symfony sh /usr/share/scripts/initSymfonyProject.sh <symfony_project_name>`
+You start it with the command:
+
+- `docker exec -it symfony sh /usr/share/scripts/initSymfonyProject.sh <symfony_project_name>`
 
 ### 1.7 Enable the comment
 Open the docker-compose.yml file and enable the line _command: npm start_. Then restart the containers with `docker-compose up -d` or `docker compose up -d`.
@@ -84,12 +89,11 @@ The logs are cached and you will find them in project folder _workDir/logs_.
 ## FAQ
 
 #### How can i change the user ownership? I can not edit files. 
-- Command: `sudo chown -R $USER`.
+- Command: `sudo chown -R $USER ./workDir/*`.
 
 #### How can I change the working directory of a Docker container?
-- Please make yourself familiar with the commands of [Docker](https://docs.docker.com/compose/). Use the respective "Dockerfile" for changes. 
-For example, I saved the working directory of the React container in a variable. 
-If you change it there, it should be applied everywhere. Try to make changes meaningful. If something doesn't work, feel free to contact me.
+- Please make yourself familiar with the commands of [Docker](https://docs.docker.com/compose/). Use the respective "Dockerfile" for changes. But be careful! If you change the working directory, then you must also do it in the respective configuration files of the Nginx. The **react.conf** contains the working directory where Nginx will look for the React project!  
+
 
 # License
 Legally, I don't know if I can declare the repo with a GPL3 license.
