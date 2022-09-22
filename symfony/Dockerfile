@@ -13,48 +13,49 @@ RUN echo ${SYMFONY_WEB_PATH} > ${HELPER_SCRIPTS_FOLDER}/symfonyWebPath.txt
 
 RUN apk add --update --no-cache \
     coreutils \
-    php7-fpm \
-    php7-apcu \
-    php7-ctype \
-    php7-curl \
-    php7-dom \
-    php7-gd \
-    php7-iconv \
-    php7-imagick \
-    php7-json \
-    php7-intl \
-    php7-mcrypt \
-    php7-fileinfo\
-    php7-mbstring \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-mysqli \
-    php7-xml \
-    php7-zlib \
-    php7-phar \
-    php7-tokenizer \
-    php7-session \
-    php7-simplexml \
-    php7-xdebug \
-    php7-zip \
-    php7-xmlwriter \
+    php-fpm \
+    php8-apcu \
+    php-ctype \
+    php-curl \
+    php-dom \
+    php-gd \
+    php-iconv \
+    php8-pecl-imagick \
+    php-json \
+    php-intl \
+    libmcrypt-dev \
+    php-fileinfo\
+    php-mbstring \
+    php-opcache \
+    php-openssl \
+    php-pdo \
+    php-pdo_mysql \
+    php-mysqli \
+    php-xml \
+    php-zlib \
+    php-phar \
+    php-tokenizer \
+    php-session \
+    php-simplexml \
+    php8-xdebug \
+    php-zip \
+    php-xmlwriter \
     make \
     curl
+
 
 RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
         && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
         && php composer-setup.php && rm composer-setup.php* \
         && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
-COPY symfony.ini /etc/php7/conf.d/
-COPY symfony.ini /etc/php7/cli/conf.d/
-COPY xdebug.ini  /etc/php7/conf.d/
+COPY symfony.ini /etc/php8/conf.d/
+COPY symfony.ini /etc/php8/cli/conf.d/
+COPY xdebug.ini  /etc/php8/conf.d/
 
-COPY symfony.pool.conf /etc/php7/php-fpm.d/
+COPY symfony.pool.conf /etc/php8/php-fpm.d/
 
-CMD ["php-fpm7", "-F"]
+CMD ["php-fpm8", "-F"]
 
 WORKDIR ${SYMFONY_WEB_PATH}
 
