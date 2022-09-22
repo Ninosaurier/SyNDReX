@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:latest
 
 ENV HELPER_SCRIPTS_FOLDER=/usr/share/scripts
 ENV SYMFONY_WEB_PATH=/var/www/symfony/

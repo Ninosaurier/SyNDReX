@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:latest
 
 RUN apk add --update --no-cache nginx
 RUN apk add nginx-debug
