@@ -14,3 +14,5 @@ cd /var/www/frontend
 
 mkdir -p "/var/www/frontend/node_modules/.cache" # npm is not able to create the folder. Only root can do it
 chmod -R 777 "/var/www/frontend/node_modules/.cache"
+
+npm install

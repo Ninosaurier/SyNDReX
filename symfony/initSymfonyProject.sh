@@ -1,7 +1,7 @@
 #!/bin/bash
 
 createSymfonyProject(){
-  
+
   echo "Creating project ${1}"
   symfonyWebPath=$(cat /usr/share/scripts/symfonyWebPath.txt)
 
@@ -16,7 +16,7 @@ createSymfonyProject(){
 
 projectName=$1
 
-if [[ -z "${projectName// }" ]]
+if [[ -z "$projectName" ]]
   then
     echo "Please... add a project name. Script finished with doing nothing."
   else
