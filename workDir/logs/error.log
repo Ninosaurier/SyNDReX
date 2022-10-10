@@ -1,9 +1,0 @@
-2022/09/23 11:52:41 [emerg] 1#1: host not found in upstream "symfony:9001" in /etc/nginx/conf.d/upstream.conf:1
-2022/09/23 11:53:08 [emerg] 1#1: host not found in upstream "symfony:9001" in /etc/nginx/conf.d/upstream.conf:1
-2022/09/23 11:53:36 [emerg] 1#1: host not found in upstream "symfony:9001" in /etc/nginx/conf.d/upstream.conf:1
-2022/09/23 14:46:30 [emerg] 1#1: duplicate location "/" in /etc/nginx/conf.d/symfony.conf:11
-2022/09/24 19:31:40 [emerg] 1#1: host not found in upstream "symfony:9001" in /etc/nginx/conf.d/upstream.conf:1
-2022/10/10 09:32:33 [emerg] 1#1: host not found in upstream "php:9001" in /etc/nginx/conf.d/php-upstream.conf:2
-2022/10/10 09:33:08 [emerg] 1#1: host not found in upstream "php:9001" in /etc/nginx/conf.d/php-upstream.conf:2
-2022/10/10 09:43:45 [emerg] 1#1: host not found in upstream "php:9001" in /etc/nginx/conf.d/php-upstream.conf:2
-2022/10/10 09:44:14 [emerg] 1#1: host not found in upstream "php:9001" in /etc/nginx/conf.d/php-upstream.conf:2
