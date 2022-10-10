@@ -1,4 +1,4 @@
-FROM php:8.1.0-fpm
+FROM alpine:latest
 
 ENV HELPER_SCRIPTS_FOLDER=/usr/share/scripts
 ENV SYMFONY_WEB_PATH=/var/www/symfony/
@@ -8,27 +8,67 @@ RUN mkdir -p -v ${HELPER_SCRIPTS_FOLDER}
 COPY symfonyWebPath.txt ${HELPER_SCRIPTS_FOLDER}
 COPY initSymfonyProject.sh ${HELPER_SCRIPTS_FOLDER}
 
+RUN apk add --no-cache \
+    coreutils \
+    gettext \
+    php8-fpm \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-gd \
+    php8-iconv \
+    php8-json \
+    php8-intl \
+    php8-fileinfo\
+    php8-mbstring \
+    php8-opcache \
+    php8-openssl \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-mysqli \
+    php8-xml \
+    php8-xsl \
+    php8-zlib \
+    php8-phar \
+    php8-tokenizer \
+    php8-session \
+    php8-simplexml \
+    php8-zip \
+    php8-xmlwriter \
+    php8-sodium \
+    php8-pecl-apcu \
+    make \
+    curl
 
-RUN echo ${SYMFONY_WEB_PATH} > ${HELPER_SCRIPTS_FOLDER}/symfonyWebPath.txt
-RUN chmod +x ${HELPER_SCRIPTS_FOLDER}/initSymfonyProject.sh
+# Enable php8-xdebug if $PHP_XDEBUG_MODE is not empty
+ARG PHP_XDEBUG_MODE=off
+ARG PHP_XDEBUG_CLIENT_PORT=5902
+ARG PHP_XDEBUG_CLIENT_HOST=host.docker.internal
+COPY xdebug.ini  /etc/php8/conf.d/xdebug.ini.template
+RUN if [[ "$PHP_XDEBUG_MODE" != "" ]]; then \
+        apk add --no-cache php8-pecl-xdebug; \
+        export PHP_XDEBUG_MODE=$PHP_XDEBUG_MODE; \
+        export PHP_XDEBUG_CLIENT_PORT=$PHP_XDEBUG_CLIENT_PORT; \
+        export PHP_XDEBUG_CLIENT_HOST=$PHP_XDEBUG_CLIENT_HOST; \
+        envsubst < /etc/php8/conf.d/xdebug.ini.template > /etc/php8/conf.d/xdebug.ini; \
+    fi
+RUN rm -f /etc/php8/conf.d/xdebug.ini.template
 
-RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
-        && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
-        && php composer-setup.php && rm composer-setup.php* \
-        && chmod +x composer.phar && mv composer.phar /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
+    && php8 composer-setup.php && rm composer-setup.php* \
+    && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
+    && ln -s /usr/bin/php8 /usr/local/bin/php
 
-RUN apt-get update && apt-get install -y libzip-dev
+RUN apk add --update nodejs npm \
+    && npm install --global yarn
 
-RUN docker-php-ext-install zip
+COPY symfony.ini /etc/php8/conf.d/
+COPY symfony.ini /etc/php8/cli/conf.d/
 
-COPY symfony.ini /etc/php/conf.d/
-COPY symfony.ini /etc/php/cli/conf.d/
-COPY xdebug.ini  /etc/php/conf.d/
+COPY symfony.pool.conf /etc/php8/php-fpm.d/
 
-COPY symfony.pool.conf /etc/php/php-fpm.d/
+WORKDIR /var/www/symfony
 
-CMD ["php-fpm", "-F"]
-
-WORKDIR ${SYMFONY_WEB_PATH}
+CMD ["php-fpm8", "-F"]
 
 EXPOSE 9001

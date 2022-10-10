@@ -12,9 +12,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     networks:
       - network_infrastructure
-#    extra_hosts:
-#      - "docker-host.localhost:127.0.0.1"
-    command: npm start
+#    command: npm start
   MongoDB:
     image: mongo
     container_name: mongo_database
@@ -49,8 +47,8 @@ services:
     ports:
       - "9001:9001"
     volumes:
-      - ./workDir/backend/symfony:/var/www/symfony:cached
-      - ./workDir/backend/symfony/logs:/var/www/symfony/logs:cached
+      - ./workDir/backend/:/var/www/symfony:cached
+      - ./workDir/backend/logs:/var/www/symfony/logs:cached
     links:
       - MongoDB
 #      - MySQLDB
@@ -67,7 +65,7 @@ services:
       - symfony
       - react
     volumes:
-      - ./workDir/backend/symfony/:/var/www/symfony:cached
+      - ./workDir/backend/:/var/www/symfony:cached
       - ./workDir/frontend/:/var/www/frontend:cached
       - ./workDir/logs/:/var/log/nginx:cached
     networks:
